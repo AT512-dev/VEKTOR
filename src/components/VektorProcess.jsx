@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
+import { cardHover, itemReveal, sectionReveal } from '../motionPresets';
 
 const STEPS = [
   {
@@ -27,51 +29,61 @@ const STEPS = [
 
 export default function VektorProcess() {
   const { currentTheme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
   const [activeStep, setActiveStep] = useState(null);
 
   return (
-    <section
+    <motion.section
       id="process"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.24 }}
+      variants={sectionReveal}
       style={{
         ...styles.section,
         backgroundColor: currentTheme.base,
         borderTop: `1px solid ${currentTheme.border}`,
       }}
     >
-      <div style={styles.innerContent}>
-        <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
+      <motion.div variants={sectionReveal} style={styles.innerContent}>
+        <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
           <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_03</span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>IDEA TO LAUNCH</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
             A lean process built for small teams that need momentum, clarity, and a finished product.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="vektor-process-grid" style={styles.grid}>
+        <motion.div variants={sectionReveal} className="vektor-process-grid" style={styles.grid}>
           {STEPS.map((step) => {
             const isActive = activeStep === step.index;
 
             return (
-              <article
+              <motion.article
+                className="vektor-interactive-card"
                 key={step.index}
+                variants={itemReveal}
                 onMouseEnter={() => setActiveStep(step.index)}
                 onMouseLeave={() => setActiveStep(null)}
+                onFocus={() => setActiveStep(step.index)}
+                onBlur={() => setActiveStep(null)}
+                whileHover={shouldReduceMotion ? undefined : cardHover}
+                whileFocus={shouldReduceMotion ? undefined : cardHover}
                 style={{
                   ...styles.stepCard,
                   background: isActive ? currentTheme.surface : currentTheme.panel,
                   borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
-                  transform: isActive ? 'translateY(-6px)' : 'translateY(0)',
                 }}
               >
                 <span style={{ ...styles.stepIndex, color: currentTheme.dim }}>{step.index}</span>
                 <h3 style={{ ...styles.stepTitle, color: currentTheme.primary }}>{step.title}</h3>
                 <p style={{ ...styles.stepText, color: currentTheme.muted }}>{step.text}</p>
-              </article>
+              </motion.article>
             );
           })}
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 }
 

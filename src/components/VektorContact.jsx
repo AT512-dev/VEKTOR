@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
+import { itemReveal, sectionReveal } from '../motionPresets';
 
 const PROJECT_TYPES = ['One Page Website', 'Multi Page Website', 'Booking / Web App'];
 
@@ -9,16 +11,20 @@ export default function VektorContact() {
   const [activeButton, setActiveButton] = useState(false);
 
   return (
-    <section
+    <motion.section
       id="contact"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.22 }}
+      variants={sectionReveal}
       style={{
         ...styles.section,
         backgroundColor: currentTheme.base,
         borderTop: `1px solid ${currentTheme.border}`,
       }}
     >
-      <div className="vektor-contact-layout" style={styles.innerContent}>
-        <div style={styles.copyBlock}>
+      <motion.div variants={sectionReveal} className="vektor-contact-layout" style={styles.innerContent}>
+        <motion.div variants={itemReveal} style={styles.copyBlock}>
           <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
             <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_06</span>
             <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>START A BUILD</h2>
@@ -31,24 +37,24 @@ export default function VektorContact() {
             <span style={{ ...styles.signalLabel, color: currentTheme.dim }}>RESPONSE WINDOW</span>
             <strong style={{ ...styles.signalValue, color: currentTheme.primary }}>24 - 48 HOURS</strong>
           </div>
-        </div>
+        </motion.div>
 
-        <form style={{ ...styles.form, borderColor: currentTheme.border, background: currentTheme.panel }}>
+        <motion.form variants={itemReveal} style={{ ...styles.form, borderColor: currentTheme.border, background: currentTheme.panel }}>
           <div className="vektor-form-grid" style={styles.formGrid}>
             <label style={styles.fieldLabel}>
               <span style={{ ...styles.labelText, color: currentTheme.dim }}>NAME</span>
-              <input style={fieldStyle(currentTheme)} name="name" type="text" placeholder="Your name" />
+              <input className="vektor-form-control" style={fieldStyle(currentTheme)} name="name" type="text" placeholder="Your name" />
             </label>
 
             <label style={styles.fieldLabel}>
               <span style={{ ...styles.labelText, color: currentTheme.dim }}>EMAIL</span>
-              <input style={fieldStyle(currentTheme)} name="email" type="email" placeholder="you@domain.com" />
+              <input className="vektor-form-control" style={fieldStyle(currentTheme)} name="email" type="email" placeholder="you@domain.com" />
             </label>
           </div>
 
           <label style={styles.fieldLabel}>
             <span style={{ ...styles.labelText, color: currentTheme.dim }}>PROJECT TYPE</span>
-            <select style={fieldStyle(currentTheme)} name="projectType" defaultValue="">
+            <select className="vektor-form-control" style={fieldStyle(currentTheme)} name="projectType" defaultValue="">
               <option value="" disabled>Select build type</option>
               {PROJECT_TYPES.map((type) => (
                 <option key={type} value={type}>{type}</option>
@@ -59,6 +65,7 @@ export default function VektorContact() {
           <label style={styles.fieldLabel}>
             <span style={{ ...styles.labelText, color: currentTheme.dim }}>PROJECT NOTES</span>
             <textarea
+              className="vektor-form-control"
               style={{ ...fieldStyle(currentTheme), ...styles.textarea }}
               name="message"
               placeholder="What do you need built, and when do you want to launch?"
@@ -67,8 +74,11 @@ export default function VektorContact() {
 
           <button
             type="button"
+            className="vektor-focus-ring vektor-cta-link"
             onMouseEnter={() => setActiveButton(true)}
             onMouseLeave={() => setActiveButton(false)}
+            onFocus={() => setActiveButton(true)}
+            onBlur={() => setActiveButton(false)}
             style={{
               ...styles.submitButton,
               background: activeButton ? currentTheme.surface : currentTheme.primary,
@@ -79,9 +89,9 @@ export default function VektorContact() {
           >
             SEND PROJECT SIGNAL
           </button>
-        </form>
-      </div>
-    </section>
+        </motion.form>
+      </motion.div>
+    </motion.section>
   );
 }
 

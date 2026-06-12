@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
+import { cardHover, itemReveal, sectionReveal } from '../motionPresets';
 
 const FOUNDERS = [
   {
@@ -9,27 +11,35 @@ const FOUNDERS = [
     role: 'Full-Stack Core',
     signal: 'FRONTEND / API / DEPLOY',
     metric: '99.9% BUILD INTEGRITY',
+    socials: [
+      { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/in/aleks--aleks/' },
+      { name: 'GitHub', icon: 'github', href: 'https://github.com/AT512-dev' },
+    ],
   },
   {
-    name: 'Karl',
-    image: '/images/karl.jpg',
+    name: 'Austin',
+    image: '/images/Austin.jpg',
     role: 'Logic Architecture',
     signal: 'SYSTEM DESIGN / FLOW / SCALE',
     metric: 'ZERO-FRICTION OPS',
+    socials: [
+      { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/in/karl-austin-pavia-032814324' },
+      { name: 'GitHub', icon: 'github', href: 'https://github.com/auxomeness' },
+      { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/thatguyaustinn/' },
+    ],
   },
   {
-    name: 'harshal',
+    name: 'Harshal',
     image: '/images/harshal.jpg',
     role: 'Systems Engineering',
     signal: 'INFRA / SECURITY / PERFORMANCE',
     metric: 'FORTRESS-GRADE STACK',
+    socials: [
+      { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/in/harshal-andhale/' },
+      { name: 'GitHub', icon: 'github', href: 'https://github.com/HarshalAndhale9657' },
+      { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/harshal_9657/' },
+    ],
   },
-];
-
-const SOCIALS = [
-  { name: 'LinkedIn', icon: 'linkedin', href: '#' },
-  { name: 'GitHub', icon: 'github', href: '#' },
-  { name: 'Instagram', icon: 'instagram', href: '#' },
 ];
 
 function SocialIcon({ type }) {
@@ -67,12 +77,17 @@ function SocialIcon({ type }) {
 
 export default function VektorStudio() {
   const { isDark, currentTheme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
   const [activeCard, setActiveCard] = useState(null);
   const [activeSocial, setActiveSocial] = useState(null);
 
   return (
-    <section
+    <motion.section
       id="studio"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={sectionReveal}
       style={{
         ...styles.section,
         background: `linear-gradient(180deg, ${currentTheme.base} 0%, ${currentTheme.surface} 100%)`,
@@ -95,37 +110,42 @@ export default function VektorStudio() {
       <span style={{ ...styles.crosshair, bottom: 24, left: 24, color: currentTheme.dim }}>+</span>
       <span style={{ ...styles.crosshair, bottom: 24, right: 24, color: currentTheme.dim }}>+</span>
 
-      <div style={styles.innerContent}>
-        <div style={styles.metaRow}>
+      <motion.div variants={sectionReveal} style={styles.innerContent}>
+        <motion.div variants={itemReveal} style={styles.metaRow}>
           <span style={{ color: currentTheme.muted }}>VEKTOR.STUDIO // OPERATORS</span>
-        </div>
+        </motion.div>
 
-        <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
+        <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
           <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_05</span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>STUDIO OPERATORS</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
             A focused technical crew building fast, secure, high-conversion digital systems.
           </p>
-        </div>
+        </motion.div>
 
-        <div style={styles.gridContainer}>
+        <motion.div variants={sectionReveal} style={styles.gridContainer}>
           {FOUNDERS.map((founder, index) => {
             const isActive = activeCard === founder.name;
 
             return (
-              <article
+              <motion.article
+                className="vektor-interactive-card"
                 key={founder.name}
+                variants={itemReveal}
+                whileHover={shouldReduceMotion ? undefined : { ...cardHover, scale: 1.015 }}
+                whileFocus={shouldReduceMotion ? undefined : { ...cardHover, scale: 1.015 }}
                 style={{
                   ...styles.founderCard,
                   background: isActive ? currentTheme.surface : currentTheme.panel,
                   borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
-                  transform: isActive ? 'translateY(-10px) scale(1.025)' : 'translateY(0) scale(1)',
                   boxShadow: isActive
                     ? `0 28px 70px ${isDark ? currentTheme.base : currentTheme.dim}`
                     : 'none',
                 }}
                 onMouseEnter={() => setActiveCard(founder.name)}
                 onMouseLeave={() => setActiveCard(null)}
+                onFocus={() => setActiveCard(founder.name)}
+                onBlur={() => setActiveCard(null)}
               >
                 <div
                   style={{
@@ -144,6 +164,7 @@ export default function VektorStudio() {
                       borderColor: currentTheme.border,
                       backgroundColor: currentTheme.surface,
                       transform: isActive ? 'scale(1.08)' : 'scale(1)',
+                      filter: isActive ? 'grayscale(0) contrast(1.02)' : 'grayscale(1) contrast(1.08)',
                     }}
                     loading="lazy"
                     decoding="async"
@@ -175,13 +196,22 @@ export default function VektorStudio() {
                   </span>
 
                   <div style={styles.socialRow} aria-label={`${founder.name} social links`}>
-                    {SOCIALS.map((social) => (
-                      <a
+                    {founder.socials.map((social) => (
+                      <motion.a
+                        className="vektor-focus-ring"
                         key={social.name}
                         href={social.href}
+                        target="_blank"
+                        rel="noreferrer"
                         aria-label={`${founder.name} ${social.name}`}
                         onMouseEnter={() => setActiveSocial(`${founder.name}-${social.name}`)}
                         onMouseLeave={() => setActiveSocial(null)}
+                        onFocus={() => setActiveSocial(`${founder.name}-${social.name}`)}
+                        onBlur={() => setActiveSocial(null)}
+                        whileHover={shouldReduceMotion ? undefined : { y: -3 }}
+                        whileFocus={shouldReduceMotion ? undefined : { y: -3 }}
+                        whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
+                        transition={{ duration: 0.18, ease: 'easeOut' }}
                         style={{
                           ...styles.socialLink,
                           color:
@@ -196,23 +226,19 @@ export default function VektorStudio() {
                             activeSocial === `${founder.name}-${social.name}`
                               ? currentTheme.primary
                               : currentTheme.panel,
-                          transform:
-                            activeSocial === `${founder.name}-${social.name}`
-                              ? 'translateY(-3px)'
-                              : 'translateY(0)',
                         }}
                       >
                         <SocialIcon type={social.icon} />
-                      </a>
+                      </motion.a>
                     ))}
                   </div>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 }
 
@@ -328,7 +354,6 @@ const styles = {
     flex: '0 0 auto',
     border: '1px solid',
     objectFit: 'cover',
-    mixBlendMode: 'luminosity',
     transition: transitions.smooth,
   },
   identityBlock: {

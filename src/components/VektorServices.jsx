@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
+import { cardHover, itemReveal, sectionReveal } from '../motionPresets';
 
 const CARD_DATA = [
   {
@@ -31,33 +33,46 @@ const CARD_DATA = [
 
 export default function VektorServices() {
   const { currentTheme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
   const [activeCard, setActiveCard] = useState(null);
 
   return (
-    <section id="services" style={{ ...styles.sectionWrapper, backgroundColor: currentTheme.base }}>
-      <div style={styles.innerContent}>
-        <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
+    <motion.section
+      id="services"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.22 }}
+      variants={sectionReveal}
+      style={{ ...styles.sectionWrapper, backgroundColor: currentTheme.base }}
+    >
+      <motion.div variants={sectionReveal} style={styles.innerContent}>
+        <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
           <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_02</span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>SERVICES / PRICING</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
             Clear builds for real businesses. Each package is scoped to launch cleanly, load fast, and make the next action obvious.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="vektor-card-grid" style={styles.gridContainer}>
+        <motion.div variants={sectionReveal} className="vektor-card-grid" style={styles.gridContainer}>
           {CARD_DATA.map((card) => {
             const isActive = activeCard === card.index;
 
             return (
-            <article
+            <motion.article
+              className="vektor-interactive-card"
               key={card.index}
+              variants={itemReveal}
               onMouseEnter={() => setActiveCard(card.index)}
               onMouseLeave={() => setActiveCard(null)}
+              onFocus={() => setActiveCard(card.index)}
+              onBlur={() => setActiveCard(null)}
+              whileHover={shouldReduceMotion ? undefined : cardHover}
+              whileFocus={shouldReduceMotion ? undefined : cardHover}
               style={{
                 ...styles.serviceCard,
                 background: isActive ? currentTheme.surface : currentTheme.panel,
                 borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
-                transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
                 boxShadow: isActive ? `0 24px 70px ${currentTheme.mesh}` : 'none',
               }}
             >
@@ -87,13 +102,13 @@ export default function VektorServices() {
               </div>
 
               <div style={{ ...styles.cardFooter, borderTop: `1px solid ${currentTheme.border}` }}>
-                <a href="#contact" style={{ ...styles.systemLink, color: currentTheme.primary }}>REQUEST QUOTE _</a>
+                <a className="vektor-focus-ring vektor-cta-link" href="#contact" style={{ ...styles.systemLink, color: currentTheme.primary }}>REQUEST QUOTE _</a>
               </div>
-            </article>
+            </motion.article>
           )})}
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 }
 

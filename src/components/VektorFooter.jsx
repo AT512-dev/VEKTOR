@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, transitions } from '../tokens';
+import { itemReveal, sectionReveal } from '../motionPresets';
 
 const SOCIALS = [
-  { name: 'LinkedIn', icon: 'linkedin', href: '#' },
-  { name: 'GitHub', icon: 'github', href: '#' },
-  { name: 'Instagram', icon: 'instagram', href: '#' },
+  { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/vektor-studio00' },
+  { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/vektorstudio00' },
 ];
 
 function SocialIcon({ type }) {
@@ -43,14 +44,21 @@ function SocialIcon({ type }) {
 
 export default function VektorFooter() {
   const { currentTheme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
   const [activeSocial, setActiveSocial] = useState(null);
 
   return (
-    <footer style={{ ...styles.footerWrapper, backgroundColor: currentTheme.surface, borderTop: `1px solid ${currentTheme.border}` }}>
-      <div style={styles.footerInner}>
+    <motion.footer
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.18 }}
+      variants={sectionReveal}
+      style={{ ...styles.footerWrapper, backgroundColor: currentTheme.surface, borderTop: `1px solid ${currentTheme.border}` }}
+    >
+      <motion.div variants={sectionReveal} style={styles.footerInner}>
         
         {/* Top Segment: Logo & CTA */}
-        <div style={styles.topSection}>
+        <motion.div variants={itemReveal} style={styles.topSection}>
           <div style={styles.brandBlock}>
             <span style={{ ...styles.logoText, color: currentTheme.primary }}>VEKTOR</span>
             <p style={{ ...styles.brandDesc, color: currentTheme.muted }}>
@@ -58,10 +66,10 @@ export default function VektorFooter() {
             </p>
           </div>
           <div style={styles.linkGrid}>
-            <a href="#services" style={{ ...styles.link, color: currentTheme.muted }}>PRICING</a>
-            <a href="#process" style={{ ...styles.link, color: currentTheme.muted }}>PROCESS</a>
-            <a href="#work" style={{ ...styles.link, color: currentTheme.muted }}>WORK</a>
-            <a href="#contact" style={{ ...styles.link, color: currentTheme.muted }}>CONNECT</a>
+            <a className="vektor-focus-ring vektor-text-link" href="#services" style={{ ...styles.link, color: currentTheme.muted }}>PRICING</a>
+            <a className="vektor-focus-ring vektor-text-link" href="#process" style={{ ...styles.link, color: currentTheme.muted }}>PROCESS</a>
+            <a className="vektor-focus-ring vektor-text-link" href="#work" style={{ ...styles.link, color: currentTheme.muted }}>WORK</a>
+            <a className="vektor-focus-ring vektor-text-link" href="#contact" style={{ ...styles.link, color: currentTheme.muted }}>CONNECT</a>
           </div>
 
           <div style={styles.socialDock} aria-label="Vektor social links">
@@ -69,29 +77,37 @@ export default function VektorFooter() {
               const isActive = activeSocial === social.name;
 
               return (
-                <a
+                <motion.a
+                  className="vektor-focus-ring"
                   key={social.name}
                   href={social.href}
-                  aria-label={social.name}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Vektor Studio ${social.name}`}
                   onMouseEnter={() => setActiveSocial(social.name)}
                   onMouseLeave={() => setActiveSocial(null)}
+                  onFocus={() => setActiveSocial(social.name)}
+                  onBlur={() => setActiveSocial(null)}
+                  whileHover={shouldReduceMotion ? undefined : { y: -3 }}
+                  whileFocus={shouldReduceMotion ? undefined : { y: -3 }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
                   style={{
                     ...styles.socialLink,
                     color: isActive ? currentTheme.inverseBase : currentTheme.primary,
                     borderColor: isActive ? currentTheme.primary : currentTheme.border,
                     background: isActive ? currentTheme.primary : currentTheme.panel,
-                    transform: isActive ? 'translateY(-3px)' : 'translateY(0)',
                   }}
                 >
                   <SocialIcon type={social.icon} />
-                </a>
+                </motion.a>
               );
             })}
           </div>
-        </div>
+        </motion.div>
 
         {/* Middle Segment: Logo Strip */}
-        <div style={{ ...styles.logoStrip, borderTop: `1px solid ${currentTheme.mesh}`, borderBottom: `1px solid ${currentTheme.mesh}` }}>
+        <motion.div variants={itemReveal} style={{ ...styles.logoStrip, borderTop: `1px solid ${currentTheme.mesh}`, borderBottom: `1px solid ${currentTheme.mesh}` }}>
           <span style={{ ...styles.stripLabel, color: currentTheme.dim }}>CORE_STACK:</span>
           <div style={styles.logos}>
             {/* React */}
@@ -128,16 +144,16 @@ export default function VektorFooter() {
               <path d="M9 10L13.5 6.5" />
             </svg>
           </div>
-        </div>
+        </motion.div>
 
         {/* Bottom Segment: Copyright */}
-        <div style={styles.bottomSection}>
+        <motion.div variants={itemReveal} style={styles.bottomSection}>
           <span style={{ ...styles.copyText, color: currentTheme.dim }}>© 2026 Vektor Software. All rights reserved.</span>
           <span style={{ ...styles.systemStatus, color: currentTheme.dim }}>STATUS: ONLINE</span>
-        </div>
+        </motion.div>
         
-      </div>
-    </footer>
+      </motion.div>
+    </motion.footer>
   );
 }
 

@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
+import { cardHover, itemReveal, sectionReveal } from '../motionPresets';
 
 const PROJECTS = [
   {
@@ -50,40 +52,50 @@ function ProjectVisual({ project, theme }) {
 
 export default function VektorPortfolio() {
   const { currentTheme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
   const [activeProject, setActiveProject] = useState(null);
 
   return (
-    <section
+    <motion.section
       id="work"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={sectionReveal}
       style={{
         ...styles.section,
         background: `linear-gradient(180deg, ${currentTheme.base} 0%, ${currentTheme.surface} 100%)`,
         borderTop: `1px solid ${currentTheme.border}`,
       }}
     >
-      <div style={styles.innerContent}>
-        <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
+      <motion.div variants={sectionReveal} style={styles.innerContent}>
+        <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
           <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_04</span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>EXAMPLE BUILDS</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
             Premium placeholders for the kinds of systems Vektor ships for local businesses, creators, and operators.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="vektor-card-grid" style={styles.grid}>
+        <motion.div variants={sectionReveal} className="vektor-card-grid" style={styles.grid}>
           {PROJECTS.map((project) => {
             const isActive = activeProject === project.index;
 
             return (
-              <article
+              <motion.article
+                className="vektor-interactive-card"
                 key={project.index}
+                variants={itemReveal}
                 onMouseEnter={() => setActiveProject(project.index)}
                 onMouseLeave={() => setActiveProject(null)}
+                onFocus={() => setActiveProject(project.index)}
+                onBlur={() => setActiveProject(null)}
+                whileHover={shouldReduceMotion ? undefined : cardHover}
+                whileFocus={shouldReduceMotion ? undefined : cardHover}
                 style={{
                   ...styles.projectCard,
                   background: isActive ? currentTheme.surface : currentTheme.panel,
                   borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
-                  transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
                 }}
               >
                 <ProjectVisual project={project} theme={currentTheme} />
@@ -99,12 +111,12 @@ export default function VektorPortfolio() {
                     ))}
                   </div>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 }
 

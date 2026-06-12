@@ -1,11 +1,18 @@
+import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, transitions } from '../tokens';
+import { itemReveal, sectionReveal } from '../motionPresets';
 
 export default function VektorHero() {
   const { isDark, currentTheme } = useTheme();
 
   return (
-    <section style={{ ...styles.heroSection, backgroundColor: currentTheme.base }}>
+    <motion.section
+      initial="hidden"
+      animate="visible"
+      variants={sectionReveal}
+      style={{ ...styles.heroSection, backgroundColor: currentTheme.base }}
+    >
       {/* Background Graphic Framework */}
       <div style={styles.meshWrap}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -24,31 +31,31 @@ export default function VektorHero() {
         }} />
       </div>
       
-      <div style={styles.contentContainer}>
-        <div style={{ ...styles.terminalBadge, borderColor: currentTheme.border, background: currentTheme.panel }}>
+      <motion.div variants={sectionReveal} style={styles.contentContainer}>
+        <motion.div variants={itemReveal} style={{ ...styles.terminalBadge, borderColor: currentTheme.border, background: currentTheme.panel }}>
           <span style={{ ...styles.badgeDot, backgroundColor: currentTheme.primary }} />
           <span style={{ ...styles.badgeText, color: currentTheme.primary }}>SYSTEMS_ACTIVE // REV_2026</span>
-        </div>
+        </motion.div>
 
-        <h1 style={{ ...styles.mainTitle, color: currentTheme.primary }}>
+        <motion.h1 variants={itemReveal} style={{ ...styles.mainTitle, color: currentTheme.primary }}>
           WE BUILD<br />
           <span style={{ ...styles.outlineText, WebkitTextStroke: `1.5px ${currentTheme.primary}` }}>DIGITAL FORTRESSES</span>
-        </h1>
+        </motion.h1>
 
-        <p style={{ ...styles.subParagraph, color: currentTheme.muted }}>
+        <motion.p variants={itemReveal} style={{ ...styles.subParagraph, color: currentTheme.muted }}>
           Elite full-stack architecture and automated pipeline deployment systems. Custom-engineered software environments engineered to eliminate complexity.
-        </p>
+        </motion.p>
 
-        <div style={styles.actionRow}>
-          <a href="#contact" style={{ ...styles.primaryBtn, background: currentTheme.primary, borderColor: currentTheme.primary, color: currentTheme.inverseBase }}>
+        <motion.div variants={itemReveal} style={styles.actionRow}>
+          <motion.a whileTap={{ scale: 0.98 }} className="vektor-focus-ring vektor-cta-link" href="#contact" style={{ ...styles.primaryBtn, background: currentTheme.primary, borderColor: currentTheme.primary, color: currentTheme.inverseBase }}>
             INITIALIZE PROJECT
-          </a>
-          <a href="#services" style={{ ...styles.secondaryBtn, borderColor: currentTheme.border, color: currentTheme.primary }}>
+          </motion.a>
+          <motion.a whileTap={{ scale: 0.98 }} className="vektor-focus-ring vektor-cta-link" href="#services" style={{ ...styles.secondaryBtn, borderColor: currentTheme.border, color: currentTheme.primary }}>
             VIEW PRICING
-          </a>
-        </div>
-      </div>
-    </section>
+          </motion.a>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 }
 

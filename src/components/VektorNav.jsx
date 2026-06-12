@@ -50,6 +50,7 @@ export default function VektorNav() {
             <a
               key={link.href}
               href={link.href}
+              className="vektor-focus-ring vektor-text-link"
               onMouseEnter={() => setActiveLink(link.href)}
               onMouseLeave={() => setActiveLink(null)}
               style={{
@@ -63,8 +64,10 @@ export default function VektorNav() {
 
           <button
             onClick={toggleTheme}
+            className="vektor-focus-ring"
             style={{ ...styles.toggleTrack, borderColor: currentTheme.border }}
-            aria-label="Toggle structural theme interface"
+            aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+            title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
           >
             <div
               style={{
@@ -75,7 +78,7 @@ export default function VektorNav() {
             />
           </button>
 
-          <a href="#contact" style={{ ...styles.ctaButton, background: currentTheme.primary, color: currentTheme.inverseBase }}>
+          <a className="vektor-focus-ring vektor-cta-link" href="#contact" style={{ ...styles.ctaButton, background: currentTheme.primary, color: currentTheme.inverseBase }}>
             CONNECT
           </a>
         </div>
@@ -83,8 +86,10 @@ export default function VektorNav() {
         <div className="vektor-mobile-controls" style={styles.mobileControls}>
           <button
             onClick={toggleTheme}
+            className="vektor-focus-ring"
             style={{ ...styles.toggleTrack, borderColor: currentTheme.border, marginRight: '12px' }}
-            aria-label="Toggle structural theme interface"
+            aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+            title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
           >
             <div
               style={{
@@ -97,8 +102,10 @@ export default function VektorNav() {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="vektor-focus-ring"
             style={{ ...styles.mobileMenuBtn, color: currentTheme.primary }}
             aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? 'CLOSE' : 'MENU'}
           </button>
@@ -112,6 +119,7 @@ export default function VektorNav() {
               key={link.href}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
+              className="vektor-focus-ring vektor-text-link"
               style={{ ...styles.mobileLink, color: currentTheme.primary }}
             >
               {link.label}
@@ -120,6 +128,7 @@ export default function VektorNav() {
           <a
             href="#contact"
             onClick={() => setMobileMenuOpen(false)}
+            className="vektor-focus-ring vektor-cta-link"
             style={{ ...styles.mobileCta, background: currentTheme.primary, color: currentTheme.inverseBase }}
           >
             CONNECT
