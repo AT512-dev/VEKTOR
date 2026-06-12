@@ -18,8 +18,8 @@ const FOUNDERS = [
     metric: 'ZERO-FRICTION OPS',
   },
   {
-    name: 'Arseni',
-    image: '/images/arseni.jpg',
+    name: 'harshal',
+    image: '/images/harshal.jpg',
     role: 'Systems Engineering',
     signal: 'INFRA / SECURITY / PERFORMANCE',
     metric: 'FORTRESS-GRADE STACK',
