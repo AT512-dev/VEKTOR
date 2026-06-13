@@ -145,7 +145,8 @@ textarea::placeholder {
 }
 
 select option {
-  color: #000000;
+  color: var(--theme-primary);
+  background: var(--theme-surface);
 }
 
 .vektor-desktop-controls {
