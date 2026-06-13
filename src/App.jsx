@@ -32,6 +32,8 @@ function ScrollProgress() {
   );
 }
 
+import VektorChatBot from './components/VektorChatBot/VektorChatBot';
+
 function MainLayout() {
   const { currentTheme } = useTheme();
 
@@ -57,6 +59,7 @@ function MainLayout() {
       </main>
 
       <VektorFooter />
+      <VektorChatBot />
     </div>
   );
 }
