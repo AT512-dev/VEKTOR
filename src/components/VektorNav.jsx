@@ -103,11 +103,32 @@ export default function VektorNav() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="vektor-focus-ring"
-            style={{ ...styles.mobileMenuBtn, color: currentTheme.primary }}
+            style={styles.mobileMenuBtn}
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? 'CLOSE' : 'MENU'}
+            <div style={styles.hamburger}>
+              <span style={{
+                ...styles.hamBar,
+                background: currentTheme.primary,
+                transform: mobileMenuOpen
+                  ? 'translateY(7px) rotate(45deg)'
+                  : 'translateY(0) rotate(0deg)',
+              }} />
+              <span style={{
+                ...styles.hamBar,
+                background: currentTheme.primary,
+                opacity: mobileMenuOpen ? 0 : 1,
+                transform: mobileMenuOpen ? 'scaleX(0)' : 'scaleX(1)',
+              }} />
+              <span style={{
+                ...styles.hamBar,
+                background: currentTheme.primary,
+                transform: mobileMenuOpen
+                  ? 'translateY(-7px) rotate(-45deg)'
+                  : 'translateY(0) rotate(0deg)',
+              }} />
+            </div>
           </button>
         </div>
       </div>
@@ -181,8 +202,6 @@ const styles = {
     marginTop: '2px',
   },
   desktopControls: {
-    display: 'flex',
-    alignItems: 'center',
     gap: '26px',
   },
   link: {
@@ -226,17 +245,29 @@ const styles = {
     textDecoration: 'none',
     transition: transitions.fast,
   },
-  mobileControls: {
-    display: 'none',
-  },
+  mobileControls: {},
   mobileMenuBtn: {
     background: 'none',
     border: 'none',
-    fontFamily: typography.mono,
-    fontSize: '11px',
-    letterSpacing: '0.12em',
     cursor: 'pointer',
     padding: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  hamburger: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '5px',
+    width: '22px',
+  },
+  hamBar: {
+    display: 'block',
+    width: '22px',
+    height: '2px',
+    borderRadius: '1px',
+    transition: 'transform 220ms cubic-bezier(0.4, 0, 0.2, 1), opacity 180ms ease, background 180ms ease',
+    transformOrigin: 'center',
   },
   mobileDrawer: {
     position: 'absolute',

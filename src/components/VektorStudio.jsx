@@ -58,7 +58,7 @@ const FOUNDERS = [
     metric: 'CONVERSION-FIRST CAMPAIGNS',
     socials: [
       { name: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/in/sumeet-gite-0668a8297/' },
-      { name: 'GitHub', icon: 'github', href: 'https://github.com/...' },
+      { name: 'GitHub', icon: 'github', href: 'https://github.com/Sumeet2386' },
     ],
   },
 ];
