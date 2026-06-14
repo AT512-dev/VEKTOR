@@ -39,6 +39,28 @@ const FOUNDERS = [
       { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/harshal_9657/' },
     ],
   },
+  {
+  name: 'Ali Jan',
+  image: '/images/ALI.jpg',
+  role: 'Full-Stack Developer',
+  signal: 'REACT / NODE / FULL-STACK',
+  metric: 'END-TO-END SHIP SPEED',
+  socials: [
+    { name: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/in/ali-jan-16872a306/' },
+    { name: 'GitHub', icon: 'github', href: 'https://github.com/AleyJan' },
+  ],
+},
+{
+  name: 'Sumeet Gite',
+  image: '/images/sumeet.jpg',
+  role: 'Marketing & Growth',
+  signal: 'GROWTH / SEO / BRAND STRATEGY',
+  metric: 'CONVERSION-FIRST CAMPAIGNS',
+  socials: [
+    { name: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/in/sumeet-gite-0668a8297/' },
+    { name: 'GitHub', icon: 'github', href: 'https://github.com/...' },
+  ],
+},
 ];
 
 function SocialIcon({ type }) {

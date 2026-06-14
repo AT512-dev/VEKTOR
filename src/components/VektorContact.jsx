@@ -78,7 +78,7 @@ export default function VektorContact() {
               ...styles.submitButton,
             }}
           >
-            SEND PROJECT SIGNAL
+            SEND US AN EMAIL
           </button>
         </motion.form>
       </motion.div>

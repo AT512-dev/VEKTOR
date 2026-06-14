@@ -133,7 +133,7 @@ export default function VektorFooter() {
         {/* Bottom Segment: Copyright */}
         <motion.div variants={itemReveal} style={styles.bottomSection}>
           <span style={{ ...styles.copyText, color: currentTheme.dim }}>© 2026 Vektor Software. All rights reserved.</span>
-          <span style={{ ...styles.systemStatus, color: currentTheme.dim }}>STATUS: ONLINE</span>
+       
         </motion.div>
         
       </motion.div>
