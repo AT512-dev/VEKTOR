@@ -70,7 +70,7 @@ export default function VektorPortfolio() {
           <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_04</span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>EXAMPLE BUILDS</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
-            Premium placeholders for the kinds of systems Vektor ships for local businesses, creators, and operators.
+            Representative builds that reflect the scope and quality of systems Vektor delivers for local businesses, creators, and operators.
           </p>
         </motion.div>
 

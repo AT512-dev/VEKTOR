@@ -1,5 +1,6 @@
 import { MotionConfig, motion, useScroll, useSpring } from 'motion/react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import VektorNav from './components/VektorNav';
 import VektorHero from './components/VektorHero';
 import VektorServices from './components/VektorServices';
@@ -8,6 +9,7 @@ import VektorStudio from './components/VektorStudio';
 import VektorProcess from './components/VektorProcess';
 import VektorPortfolio from './components/VektorPortfolio';
 import VektorContact from './components/VektorContact';
+import VektorChatBot from './components/VektorChatBot/VektorChatBot';
 
 function ScrollProgress() {
   const { currentTheme } = useTheme();
@@ -31,8 +33,6 @@ function ScrollProgress() {
     />
   );
 }
-
-import VektorChatBot from './components/VektorChatBot/VektorChatBot';
 
 function MainLayout() {
   const { currentTheme } = useTheme();
@@ -68,7 +68,9 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <ThemeProvider>
-        <MainLayout />
+        <ErrorBoundary>
+          <MainLayout />
+        </ErrorBoundary>
       </ThemeProvider>
     </MotionConfig>
   );

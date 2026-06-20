@@ -2,12 +2,159 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vektorlogo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vektor</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- ── Primary Meta Tags ─────────────────────────────────────────── -->
+    <title>Vektor Studio — Custom Websites & Web Apps for Businesses</title>
+    <meta name="description" content="Vektor builds high-performance custom websites and web apps for businesses, creators, and startups. Hand-crafted code, zero templates. One-page sites from $150, multi-page from $350, custom web apps from $800." />
+    <meta name="keywords" content="custom web development, website design, web apps, booking systems, business websites, React development, full-stack development, startup websites" />
+    <meta name="author" content="Vektor Studio" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://studiovektor.com/" />
+
+    <!-- ── Theme & Branding ──────────────────────────────────────────── -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/png" href="/vektorlogo.png" />
+    <link rel="apple-touch-icon" href="/vektorlogo.png" />
+
+    <!-- ── Open Graph / Facebook ─────────────────────────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Vektor Studio" />
+    <meta property="og:title" content="Vektor Studio — Custom Websites & Web Apps for Businesses" />
+    <meta property="og:description" content="Elite full-stack architecture and custom-engineered websites for businesses, creators, and startups. No templates. Hand-crafted code from $150." />
+    <meta property="og:url" content="https://studiovektor.com/" />
+    <meta property="og:image" content="https://studiovektor.com/vektorlogo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ── Twitter Card ──────────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vektor Studio — Custom Websites & Web Apps" />
+    <meta name="twitter:description" content="Hand-crafted websites and web apps for businesses. No templates. From $150." />
+    <meta name="twitter:image" content="https://studiovektor.com/vektorlogo.png" />
+
+    <!-- ── JSON-LD Structured Data ───────────────────────────────────── -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Vektor Studio",
+        "alternateName": "Vektor Software",
+        "url": "https://studiovektor.com",
+        "logo": "https://studiovektor.com/vektorlogo.png",
+        "image": "https://studiovektor.com/vektorlogo.png",
+        "description": "Vektor builds high-performance custom websites and web apps for businesses, creators, and startups. Every project is scoped, designed, and developed by hand.",
+        "email": "hello@studiovektor.com",
+        "sameAs": [
+          "https://www.linkedin.com/company/vektor-studio00",
+          "https://www.instagram.com/vektorstudio00"
+        ],
+        "priceRange": "$150 - $1500+",
+        "knowsAbout": [
+          "Web Development",
+          "Custom Websites",
+          "Web Applications",
+          "React Development",
+          "Full-Stack Development",
+          "UI/UX Design"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Web Development Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "name": "One Page Website",
+              "description": "Single responsive page with conversion-focused copy structure, contact path, mobile optimization, and deployment.",
+              "price": "150",
+              "priceCurrency": "USD",
+              "priceSpecification": {
+                "@type": "PriceSpecification",
+                "minPrice": "150",
+                "maxPrice": "300",
+                "priceCurrency": "USD"
+              }
+            },
+            {
+              "@type": "Offer",
+              "name": "Multi-Page Website",
+              "description": "3-5 pages with navigation system, service pages, contact/inquiry flow, SEO-ready structure, and mobile optimization.",
+              "price": "350",
+              "priceCurrency": "USD",
+              "priceSpecification": {
+                "@type": "PriceSpecification",
+                "minPrice": "350",
+                "maxPrice": "700",
+                "priceCurrency": "USD"
+              }
+            },
+            {
+              "@type": "Offer",
+              "name": "Booking / Web App",
+              "description": "Custom interface with business logic, data flow, auth-ready architecture, admin controls, and deployment.",
+              "price": "800",
+              "priceCurrency": "USD",
+              "priceSpecification": {
+                "@type": "PriceSpecification",
+                "minPrice": "800",
+                "maxPrice": "1500",
+                "priceCurrency": "USD"
+              }
+            }
+          ]
+        }
+      }
+    </script>
+
+    <!-- ── Google Fonts (preconnect + load) ───────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ── Loading Spinner (replaced by React on mount) ──────────────── -->
+    <style>
+      @keyframes vektor-initial-spin {
+        to { transform: rotate(360deg); }
+      }
+      .vektor-loader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+        min-height: 100vh;
+        background: #000000;
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      }
+      .vektor-loader-ring {
+        width: 36px;
+        height: 36px;
+        border: 2px solid rgba(255, 255, 255, 0.08);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: vektor-initial-spin 0.65s linear infinite;
+      }
+      .vektor-loader-text {
+        color: rgba(255, 255, 255, 0.28);
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="vektor-loader" aria-label="Loading Vektor Studio">
+        <div class="vektor-loader-ring"></div>
+        <span class="vektor-loader-text">Initializing</span>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
