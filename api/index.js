@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
+import sendEmailHandler, { contactFormLimiter } from './send-email.js';
 
 dotenv.config();
 
@@ -15,6 +16,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// ── Contact form ──────────────────────────────────────────────────────────
+// Rate limited to 3 requests per IP per 15 minutes (see send-email.js)
+app.post('/api/send-email', contactFormLimiter, sendEmailHandler);
+
+// ── Chatbot ───────────────────────────────────────────────────────────────
 app.post('/api/chat', async (req, res) => {
   try {
     const { messages } = req.body;
