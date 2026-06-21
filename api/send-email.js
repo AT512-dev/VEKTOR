@@ -1,6 +1,25 @@
 import { Resend } from 'resend';
+import rateLimit from 'express-rate-limit';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// ── Rate limiting ────────────────────────────────────────────────────────────
+// 3 requests per IP per 15-minute window, specific to the contact form endpoint.
+// Import `contactFormLimiter` and apply it as middleware on the route, e.g.:
+//   app.post('/api/contact', contactFormLimiter, handler);
+export const contactFormLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 3,                   // limit each IP to 3 requests per window
+  standardHeaders: true,    // adds RateLimit-* headers
+  legacyHeaders: false,     // disables deprecated X-RateLimit-* headers
+  message: { error: 'Too many requests, please try again later.' },
+  handler: (req, res, _next, options) => {
+    res.status(options.statusCode).json(options.message);
+  },
+});
 
 const FROM_EMAIL = 'Vektor Studio <hello@studiovektor.com>';
 const STUDIO_EMAIL = 'hello@studiovektor.com';

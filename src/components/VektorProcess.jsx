@@ -44,7 +44,7 @@ export default function VektorProcess() {
     >
       <motion.div variants={sectionReveal} style={styles.innerContent}>
         <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
-          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_03</span>
+          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}></span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>IDEA TO LAUNCH</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
             A lean process built for small teams that need momentum, clarity, and a finished product.

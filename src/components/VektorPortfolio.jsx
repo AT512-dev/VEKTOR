@@ -67,7 +67,7 @@ export default function VektorPortfolio() {
     >
       <motion.div variants={sectionReveal} style={styles.innerContent}>
         <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
-          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_04</span>
+          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}></span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>EXAMPLE BUILDS</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
             Representative builds that reflect the scope and quality of systems Vektor delivers for local businesses, creators, and operators.

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
+import sendEmailHandler, { contactFormLimiter } from './send-email.js';
 
 dotenv.config();
 
@@ -94,6 +95,10 @@ try {
   console.error('[Vektor] Failed to load bot_knowledge.md:', err.message);
   SYSTEM_PROMPT = 'You are a helpful assistant for Vektor Studio, a web development agency.';
 }
+
+// ── Contact form ──────────────────────────────────────────────────────────
+// Rate limited to 3 requests per IP per 15 minutes (see send-email.js)
+app.post('/api/send-email', contactFormLimiter, sendEmailHandler);
 
 // ── Validation Helpers ───────────────────────────────────────────────────────
 function validateMessages(messages) {

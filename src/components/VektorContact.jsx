@@ -131,7 +131,7 @@ export default function VektorContact() {
         {/* ── Left Copy Block ─────────────────────────────────────── */}
         <motion.div variants={itemReveal} style={styles.copyBlock}>
           <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
-            <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_06</span>
+            <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}></span>
             <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>START A BUILD</h2>
             <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
               Send the basics. We will respond with the right package, timeline, and first-step recommendation.

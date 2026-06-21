@@ -104,7 +104,7 @@ export default function VektorStudio() {
         </motion.div>
 
         <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
-          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_05</span>
+          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}></span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>STUDIO OPERATORS</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
             A focused technical crew building fast, secure, high-conversion digital systems.
