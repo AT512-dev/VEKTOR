@@ -1,4 +1,5 @@
-import { motion } from 'motion/react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
 import { itemReveal, sectionReveal } from '../motionPresets';
@@ -10,6 +11,7 @@ const PROJECTS = [
     type: 'MULTI PAGE WEBSITE',
     result: 'Menu, location, offer pages, and a direct inquiry path for local search traffic.',
     tags: ['LOCAL SEO', 'MENU UX', 'MOBILE FIRST'],
+    image: 'images/2.png',
   },
   {
     index: '02',
@@ -17,6 +19,7 @@ const PROJECTS = [
     type: 'BOOKING / WEB APP',
     result: 'Service selection, calendar-ready booking flow, and admin-friendly request capture.',
     tags: ['BOOKING FLOW', 'FORMS', 'DASHBOARD'],
+    image: 'images/3.png',
   },
   {
     index: '03',
@@ -24,86 +27,136 @@ const PROJECTS = [
     type: 'ONE PAGE WEBSITE',
     result: 'Offer narrative, proof blocks, newsletter capture, and fast deployment.',
     tags: ['LANDING PAGE', 'LEAD CAPTURE', 'LAUNCH'],
+    image: 'images/1.png',
   },
 ];
 
-function ProjectVisual({ project, theme }) {
-  return (
-    <div style={{ ...styles.visual, borderColor: theme.border, background: theme.surface }}>
-      <div style={{ ...styles.visualTop, borderBottom: `1px solid ${theme.border}` }}>
-        <span style={{ background: theme.primary }} />
-        <span style={{ background: theme.dim }} />
-        <span style={{ background: theme.muted }} />
-      </div>
-      <div style={styles.visualGrid}>
-        <div style={{ ...styles.visualBlock, borderColor: theme.border, gridColumn: 'span 3' }} />
-        <div style={{ ...styles.visualBlock, borderColor: theme.border, gridColumn: 'span 2' }} />
-        <div style={{ ...styles.visualBlock, borderColor: theme.border, gridColumn: 'span 1' }} />
-        <div style={{ ...styles.visualLine, background: theme.primary, gridColumn: 'span 2' }} />
-        <div style={{ ...styles.visualLine, background: theme.dim, gridColumn: 'span 1' }} />
-        <div style={{ ...styles.visualPanel, borderColor: theme.border, gridColumn: 'span 3' }}>
-          <span style={{ color: theme.dim }}>{project.index}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function VektorPortfolio() {
   const { currentTheme } = useTheme();
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const openLightbox  = (project) => setSelectedImage(project);
+  const closeLightbox = ()        => setSelectedImage(null);
 
   return (
-    <motion.section
-      id="work"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={sectionReveal}
-      style={{
-        ...styles.section,
-        background: `linear-gradient(180deg, ${currentTheme.base} 0%, ${currentTheme.surface} 100%)`,
-        borderTop: `1px solid ${currentTheme.border}`,
-      }}
-    >
-      <motion.div variants={sectionReveal} style={styles.innerContent}>
-        <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
-          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}></span>
-          <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>EXAMPLE BUILDS</h2>
-          <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
-            Premium placeholders for the kinds of systems Vektor ships for local businesses, creators, and operators.
-          </p>
-        </motion.div>
+    // Fragment wraps the section + the portal-level lightbox so both live at
+    // the same React tree depth — required for layoutId to resolve correctly.
+    <>
+      <motion.section
+        id="work"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionReveal}
+        style={{
+          ...styles.section,
+          background: `linear-gradient(180deg, ${currentTheme.base} 0%, ${currentTheme.surface} 100%)`,
+          borderTop: `1px solid ${currentTheme.border}`,
+        }}
+      >
+        <motion.div variants={sectionReveal} style={styles.innerContent}>
+          <motion.div variants={itemReveal} style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
+            <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}></span>
+            <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>EXAMPLE BUILDS</h2>
+            <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
+              Premium placeholders for the kinds of systems Vektor ships for local businesses, creators, and operators.
+            </p>
+          </motion.div>
 
-        <motion.div variants={sectionReveal} className="vektor-card-grid" style={styles.grid}>
-          {PROJECTS.map((project) => {
-            return (
-              <motion.article
-                className="vektor-interactive-card"
-                key={project.index}
-                variants={itemReveal}
-                style={{
-                  ...styles.projectCard,
-                }}
-              >
-                <ProjectVisual project={project} theme={currentTheme} />
-                <div style={styles.projectBody}>
-                  <span style={{ ...styles.projectType, color: currentTheme.dim }}>{project.type}</span>
-                  <h3 style={{ ...styles.projectTitle, color: currentTheme.primary }}>{project.title}</h3>
-                  <p style={{ ...styles.projectResult, color: currentTheme.muted }}>{project.result}</p>
-                  <div style={styles.tagRow}>
-                    {project.tags.map((tag) => (
-                      <span key={tag} style={{ ...styles.tag, color: currentTheme.secondary, borderColor: currentTheme.border }}>
-                        {tag}
-                      </span>
-                    ))}
+          <motion.div variants={sectionReveal} className="vektor-card-grid" style={styles.grid}>
+            {PROJECTS.map((project) => {
+              return (
+                <motion.article
+                  className="vektor-interactive-card"
+                  key={project.index}
+                  variants={itemReveal}
+                  // overflow visible so the layout transition isn't clipped
+                  style={{ ...styles.projectCard, overflow: 'visible' }}
+                >
+                  {/* ── Project image ──────────────────────────────────── */}
+                  {/* The wrapper clips & rounds; the motion.img animates layout */}
+                  <div style={styles.imageWrapper}>
+                    <motion.img
+                      layoutId={`project-image-${project.index}`}
+                      src={project.image}
+                      alt={`${project.title} preview`}
+                      onClick={() => openLightbox(project)}
+                      style={styles.projectImage}
+                      // Subtle scale-up on hover so it reads as interactive
+                      whileHover={{ scale: 1.04 }}
+                      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    />
+                    {/* Zoom hint badge */}
+                    <span style={{ ...styles.zoomHint, color: currentTheme.primary, borderColor: currentTheme.border }}>
+                      VIEW ↗
+                    </span>
                   </div>
-                </div>
-              </motion.article>
-            );
-          })}
+
+                  <div style={styles.projectBody}>
+                    <span style={{ ...styles.projectType, color: currentTheme.dim }}>{project.type}</span>
+                    <h3 style={{ ...styles.projectTitle, color: currentTheme.primary }}>{project.title}</h3>
+                    <p style={{ ...styles.projectResult, color: currentTheme.muted }}>{project.result}</p>
+                    <div style={styles.tagRow}>
+                      {project.tags.map((tag) => (
+                        <span key={tag} style={{ ...styles.tag, color: currentTheme.secondary, borderColor: currentTheme.border }}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </motion.section>
+      </motion.section>
+
+      {/* ── Lightbox ─────────────────────────────────────────────────────────
+          AnimatePresence lets Framer Motion coordinate the exit animation
+          before the node is removed from the DOM.
+      ──────────────────────────────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            key="lightbox-overlay"
+            style={styles.overlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: 'easeInOut' }}
+            onClick={closeLightbox}
+          >
+            {/* Close button — appears after the overlay fades in */}
+            <motion.button
+              type="button"
+              aria-label="Close preview"
+              style={styles.closeButton}
+              onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ delay: 0.18, duration: 0.22 }}
+              whileHover={{ scale: 1.12 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              ✕
+            </motion.button>
+
+            {/* Shared-layout image — same layoutId as the card thumbnail.
+                stopPropagation prevents clicking the image from closing. */}
+            <motion.img
+              layoutId={`project-image-${selectedImage.index}`}
+              src={selectedImage.image}
+              alt={`${selectedImage.title} full preview`}
+              style={styles.lightboxImage}
+              onClick={(e) => e.stopPropagation()}
+              // Give the image a slightly springy settle
+              transition={{ type: 'spring', stiffness: 280, damping: 30 }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -150,44 +203,38 @@ const styles = {
     backdropFilter: glass.blur,
     WebkitBackdropFilter: glass.blur,
     transition: transitions.smooth,
-    overflow: 'hidden',
     willChange: 'transform, background',
   },
-  visual: {
-    minHeight: '220px',
-    borderBottom: '1px solid',
+
+  // ── Project image ───────────────────────────────────────────────────────
+  imageWrapper: {
+    position: 'relative',
+    width: '100%',
+    height: '220px',
+    overflow: 'hidden',      // clips the image to card edges
+    cursor: 'zoom-in',
   },
-  visualTop: {
-    height: '38px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '0 14px',
+  projectImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    display: 'block',
   },
-  visualGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-    gap: '12px',
-    padding: '18px',
-  },
-  visualBlock: {
-    height: '54px',
-    border: '1px solid',
-  },
-  visualLine: {
-    height: '8px',
-    opacity: 0.62,
-  },
-  visualPanel: {
-    height: '70px',
-    border: '1px solid',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '12px',
+  zoomHint: {
+    position: 'absolute',
+    bottom: '10px',
+    right: '10px',
     fontFamily: typography.mono,
-    fontSize: '28px',
+    fontSize: '9px',
+    letterSpacing: '0.12em',
+    border: '1px solid',
+    padding: '4px 7px',
+    background: 'rgba(0,0,0,0.45)',
+    backdropFilter: 'blur(6px)',
+    WebkitBackdropFilter: 'blur(6px)',
+    pointerEvents: 'none',
   },
+
   projectBody: {
     padding: 'clamp(20px, 4vw, 28px)',
   },
@@ -221,5 +268,52 @@ const styles = {
     letterSpacing: '0.12em',
     border: '1px solid',
     padding: '6px 8px',
+  },
+
+  // ── Lightbox ─────────────────────────────────────────────────────────────
+  overlay: {
+    position: 'fixed',
+    inset: 0,
+    zIndex: 9999,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // Dark glass-morphism backdrop
+    background: 'rgba(4, 4, 8, 0.82)',
+    backdropFilter: 'blur(18px)',
+    WebkitBackdropFilter: 'blur(18px)',
+  },
+  lightboxImage: {
+    // Constrain to 90% of the viewport while preserving aspect ratio
+    maxWidth: '90vw',
+    maxHeight: '90vh',
+    objectFit: 'contain',
+    borderRadius: '8px',
+    // Prevent it from catching the overlay click
+    cursor: 'default',
+    // Subtle shadow so it pops off the dark backdrop
+    boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '20px',
+    right: '24px',
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    border: '1px solid rgba(255,255,255,0.18)',
+    background: 'rgba(255,255,255,0.08)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    color: '#fff',
+    fontSize: '15px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    zIndex: 10000,
+    // Reset browser button styles
+    padding: 0,
+    lineHeight: 1,
   },
 };
