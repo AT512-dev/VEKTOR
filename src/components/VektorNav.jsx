@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions, radii } from '../tokens';
 
+
 const NAV_LINKS = [
   { label: 'SERVICES', href: '#services' },
   { label: 'PROCESS', href: '#process' },
@@ -14,6 +15,8 @@ export default function VektorNav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(null);
+
+
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
