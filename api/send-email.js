@@ -274,11 +274,13 @@ function buildConfirmationHtml({ name, projectType }) {
               <!-- Status indicator -->
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="padding:6px 14px;border:1px solid ${BRAND.border};">
+                  <td style="padding:7px 16px;border:1px solid ${BRAND.border};">
                     <table role="presentation" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="width:6px;height:6px;background:${BRAND.green};border-radius:50%;"></td>
-                        <td style="padding-left:8px;">
+                        <td style="padding-right:9px;">
+                          <span style="font-family:${BRAND.sans};font-size:11px;color:${BRAND.muted};line-height:1;">✓</span>
+                        </td>
+                        <td>
                           <span style="font-family:${BRAND.mono};font-size:9px;letter-spacing:0.14em;color:${BRAND.muted};text-transform:uppercase;">MESSAGE RECEIVED</span>
                         </td>
                       </tr>
